@@ -10,354 +10,317 @@
 
         body {
             font-family: -apple-system, 'Inter', 'Segoe UI', sans-serif;
-            background: #0a0e14;
-            color: #e4e9f0;
+            background: #F5F0E8;
+            color: #2C2C2A;
             min-height: 100vh;
-            padding: 32px 24px;
+            padding: 32px 28px;
         }
 
-        .page { max-width: 860px; margin: 0 auto; }
+        .page { max-width: 900px; margin: 0 auto; }
 
         /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 36px;
-            padding-bottom: 20px;
-            border-bottom: 0.5px solid #1e2a38;
-        }
+        .header { margin-bottom: 28px; }
 
-        .header-icon {
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            background: #00ffe518;
-            border: 1px solid #00ffe533;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .header-icon i { color: #00ffe5; font-size: 20px; }
-        .header-title { font-size: 18px; font-weight: 500; }
-        .header-sub   { font-size: 13px; color: #5a6678; margin-top: 2px; }
-
-        /* Tool cards */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .tool-card {
-            background: #0e1219;
-            border: 0.5px solid #1e2a38;
-            border-radius: 14px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .tool-header {
+        .header-row {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 4px;
         }
 
-        .tool-icon {
+        .header-icon {
             width: 34px; height: 34px;
             border-radius: 8px;
+            background: #412402;
             display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
         }
 
-        .tool-icon-breach   { background: #ff5c7c18; border: 1px solid #ff5c7c33; }
-        .tool-icon-breach i { color: #ff5c7c; font-size: 17px; }
-        .tool-icon-meta     { background: #ffa94d18; border: 1px solid #ffa94d33; }
-        .tool-icon-meta i   { color: #ffa94d; font-size: 17px; }
+        .header-icon i { color: #FAC775; font-size: 17px; }
+        .header-title { font-size: 18px; font-weight: 500; color: #2C2C2A; }
+        .header-sub   { font-size: 13px; color: #5F5E5A; margin-left: 44px; }
 
-        .tool-name { font-size: 14px; font-weight: 500; }
-        .tool-desc { font-size: 11px; color: #5a6678; margin-top: 1px; }
+        /* Tools grid */
+        .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-        /* Inputs */
-        .pw-wrap {
+        .tool {
+            background: #FFFDF8;
+            border: 0.5px solid #D3D1C7;
+            border-radius: 14px;
+            padding: 22px;
             display: flex;
-            gap: 8px;
-            position: relative;
+            flex-direction: column;
+            gap: 14px;
         }
 
-        .pw-input {
-            flex: 1;
-            background: #070a0f;
-            border: 0.5px solid #1e2a38;
+        .tool-label { display: flex; align-items: center; gap: 8px; }
+
+        .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .tl-name { font-size: 14px; font-weight: 500; color: #2C2C2A; }
+        .tl-sub  { font-size: 11px; color: #888780; margin-top: 2px; }
+
+        /* Password input */
+        .pw-field {
+            display: flex;
+            align-items: center;
+            background: #F1EFE8;
+            border: 0.5px solid #D3D1C7;
             border-radius: 8px;
-            padding: 10px 40px 10px 12px;
-            color: #e4e9f0;
-            font-size: 13px;
+            padding: 0 10px;
+            height: 40px;
+            transition: border-color 0.15s;
+        }
+
+        .pw-field:focus-within { border-color: #854F0B; }
+
+        .pw-field input {
+            flex: 1;
+            background: none;
+            border: none;
             outline: none;
-            transition: border-color 0.2s;
+            font-size: 13px;
+            color: #2C2C2A;
             font-family: 'SF Mono', monospace;
         }
 
-        .pw-input:focus { border-color: #00ffe5; }
+        .pw-field input::placeholder { color: #B4B2A9; font-family: inherit; }
+        .pw-toggle { background: none; border: none; color: #888780; cursor: pointer; font-size: 16px; padding: 0; }
 
-        .pw-toggle {
-            position: absolute;
-            right: 10px; top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #5a6678;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 0;
-        }
-
-        .check-btn {
-            padding: 10px 16px;
+        /* Buttons */
+        .btn-primary {
+            width: 100%; padding: 10px;
             border-radius: 8px;
-            background: #ff5c7c;
-            color: #0a0e14;
             border: none;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 13px; font-weight: 500;
             cursor: pointer;
-            white-space: nowrap;
-            transition: opacity 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            transition: opacity 0.15s;
         }
 
-        .check-btn:hover    { opacity: 0.85; }
-        .check-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .btn-primary:hover    { opacity: 0.88; }
+        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-check { background: #412402; color: #FAC775; }
+        .btn-scan  { background: #633806; color: #FAC775; }
+        .btn-strip { background: #F1EFE8; color: #2C2C2A; border: 0.5px solid #D3D1C7 !important; }
 
         .privacy-note {
-            font-size: 10px;
-            color: #5a6678;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            font-size: 11px; color: #888780;
+            display: flex; align-items: center; gap: 4px;
         }
 
-        .privacy-note i { font-size: 11px; color: #00ffc2; }
+        .privacy-note i { font-size: 12px; color: #3B6D11; }
 
         /* Breach result */
-        .breach-result {
-            display: none;
-            border-radius: 8px;
-            padding: 14px;
-            font-size: 13px;
+        .breach-result { display: none; border-radius: 8px; padding: 13px 14px; }
+
+        .br-safe    { background: #EAF3DE; border: 0.5px solid #C0DD97; }
+        .br-found   { background: #FCEBEB; border: 0.5px solid #F7C1C1; }
+        .br-unknown { background: #FAEEDA; border: 0.5px solid #FAC775; }
+
+        .br-title {
+            font-size: 13px; font-weight: 500;
+            display: flex; align-items: center; gap: 6px;
+            margin-bottom: 3px;
         }
 
-        .result-safe     { background: #00ffc211; border: 0.5px solid #00ffc233; color: #00ffc2; }
-        .result-breached { background: #ff5c7c11; border: 0.5px solid #ff5c7c33; color: #ff5c7c; }
-        .result-unknown  { background: #ffa94d11; border: 0.5px solid #ffa94d33; color: #ffa94d; }
+        .br-safe .br-title    { color: #27500A; }
+        .br-found .br-title   { color: #791F1F; }
+        .br-unknown .br-title { color: #633806; }
 
-        .result-icon { font-size: 20px; display: block; margin-bottom: 6px; }
-        .result-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
-        .result-detail { font-size: 12px; opacity: 0.8; }
+        .br-detail { font-size: 11px; line-height: 1.5; }
+        .br-safe .br-detail    { color: #3B6D11; }
+        .br-found .br-detail   { color: #A32D2D; }
+        .br-unknown .br-detail { color: #854F0B; }
 
         /* Upload zone */
         .upload-zone {
-            border: 1px dashed #1e2a38;
+            border: 1px dashed #D3D1C7;
             border-radius: 8px;
             padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: border-color 0.2s;
-            background: #070a0f;
+            background: #F1EFE8;
+            transition: border-color 0.15s;
         }
 
-        .upload-zone:hover { border-color: #ffa94d; }
-        .upload-zone.drag-over { border-color: #ffa94d; }
-        .upload-zone i { font-size: 28px; color: #2a3a4a; display: block; margin-bottom: 8px; }
-        .upload-zone .uz-title { font-size: 13px; color: #c8d8e8; margin-bottom: 3px; }
-        .upload-zone .uz-sub   { font-size: 11px; color: #5a6678; }
-        .upload-zone .uz-file  { font-size: 12px; color: #ffa94d; margin-top: 6px; font-weight: 500; }
+        .upload-zone:hover, .upload-zone.drag-over { border-color: #854F0B; }
+        .upload-zone i { font-size: 28px; color: #B4B2A9; display: block; margin-bottom: 6px; }
+        .uz-title { font-size: 13px; color: #444441; margin-bottom: 3px; }
+        .uz-sub   { font-size: 11px; color: #888780; }
+        .uz-file  { font-size: 11px; color: #854F0B; margin-top: 6px; font-weight: 500; }
 
         input[type="file"] { display: none; }
 
-        .meta-btn {
-            padding: 10px;
-            border-radius: 8px;
-            background: #ffa94d;
-            color: #0a0e14;
-            border: none;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: opacity 0.2s;
-        }
-
-        .meta-btn:hover    { opacity: 0.85; }
-        .meta-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-        /* Metadata results */
-        .meta-results { display: none; }
-
+        /* Meta summary */
         .meta-summary {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            margin-bottom: 12px;
         }
 
         .ms-card {
-            background: #070a0f;
-            border: 0.5px solid #1e2a38;
+            background: #F1EFE8;
             border-radius: 8px;
             padding: 10px 12px;
             text-align: center;
         }
 
-        .ms-num   { font-size: 20px; font-weight: 500; }
-        .ms-label { font-size: 10px; color: #5a6678; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+        .ms-num   { font-size: 18px; font-weight: 500; color: #2C2C2A; }
+        .ms-label { font-size: 10px; color: #888780; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
 
         .risk-pill {
             display: inline-block;
-            padding: 3px 10px;
-            border-radius: 10px;
+            padding: 3px 9px;
+            border-radius: 4px;
             font-size: 10px;
-            font-weight: 700;
+            font-weight: 600;
             letter-spacing: 0.3px;
         }
 
-        .rp-HIGH   { background: #ff5c7c22; color: #ff5c7c; }
-        .rp-MEDIUM { background: #ffa94d22; color: #ffa94d; }
-        .rp-LOW    { background: #ffd43b22; color: #ffd43b; }
-        .rp-NONE   { background: #00ffc222; color: #00ffc2; }
+        .rp-HIGH   { background: #FCEBEB; color: #791F1F; }
+        .rp-MEDIUM { background: #FAEEDA; color: #633806; }
+        .rp-LOW    { background: #EAF3DE; color: #27500A; }
+        .rp-NONE   { background: #EAF3DE; color: #27500A; }
 
+        /* Fields list */
         .fields-list {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            max-height: 180px;
+            max-height: 200px;
             overflow-y: auto;
-            margin-bottom: 10px;
+            border: 0.5px solid #D3D1C7;
+            border-radius: 8px;
+            background: #F1EFE8;
         }
 
         .field-row {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 10px;
-            background: #070a0f;
-            border-radius: 6px;
+            padding: 7px 10px;
+            border-bottom: 0.5px solid #D3D1C7;
             font-size: 11px;
         }
 
-        .field-name  { color: #8a9ab0; flex: 1; }
-        .field-value { color: #5a6678; font-family: monospace; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .field-row:last-child { border-bottom: none; }
 
-        .strip-btn {
-            padding: 9px;
-            border-radius: 8px;
-            background: #00ffe5;
-            color: #0a0e14;
-            border: none;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            transition: opacity 0.2s;
+        .f-dot   { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+        .f-name  { color: #5F5E5A; flex: 1; min-width: 0; }
+        .f-value {
+            color: #888780;
+            font-family: 'SF Mono', monospace;
+            font-size: 10px;
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: right;
         }
 
-        .strip-btn:hover    { opacity: 0.85; }
-        .strip-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .no-meta {
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888780;
+        }
 
         /* Strip result */
         .strip-result {
             display: none;
-            background: #00ffc211;
-            border: 0.5px solid #00ffc233;
+            background: #EAF3DE;
+            border: 0.5px solid #C0DD97;
             border-radius: 8px;
-            padding: 12px 14px;
-            font-size: 12px;
-            color: #00ffc2;
+            padding: 13px 14px;
         }
 
-        .strip-result .sr-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .sr-title {
+            font-size: 13px; font-weight: 500;
+            color: #27500A;
+            display: flex; align-items: center; gap: 5px;
+            margin-bottom: 3px;
+        }
+
+        .sr-detail { font-size: 11px; color: #3B6D11; line-height: 1.5; }
+
         .dl-btn {
             margin-top: 10px;
-            padding: 8px;
+            width: 100%; padding: 8px;
             border-radius: 6px;
-            background: #00ffe5;
-            color: #0a0e14;
+            background: #27500A;
+            color: #C0DD97;
             border: none;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 12px; font-weight: 500;
             cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+            transition: opacity 0.15s;
         }
 
-        /* Loading spinner */
+        .dl-btn:hover { opacity: 0.88; }
+
+        /* Error */
+        .error-msg {
+            font-size: 12px; color: #A32D2D;
+            display: none; margin-top: -6px;
+        }
+
+        /* Spinner */
         .spinner {
             display: none;
-            width: 16px; height: 16px;
-            border: 2px solid #1e2a38;
-            border-top-color: #00ffe5;
+            width: 15px; height: 15px;
+            border: 2px solid #D3D1C7;
+            border-top-color: #633806;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .error-msg {
-            font-size: 12px;
-            color: #ff5c7c;
-            margin-top: 6px;
-            display: none;
+        .btn-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+
+        .btn-row .btn-primary { flex: 1; }
     </style>
 </head>
 <body>
 <div class="page">
 
     <div class="header">
-        <div class="header-icon">
-            <i class="ti ti-shield-lock" aria-hidden="true"></i>
+        <div class="header-row">
+            <div class="header-icon">
+                <i class="ti ti-shield-lock" aria-hidden="true"></i>
+            </div>
+            <span class="header-title">Digital security toolkit</span>
         </div>
-        <div>
-            <div class="header-title">Digital Security Toolkit</div>
-            <div class="header-sub">Password breach checker · Image metadata stripper</div>
-        </div>
+        <div class="header-sub">Privacy tools for everyone — no data leaves your device</div>
     </div>
 
-    <div class="tools-grid">
+    <div class="tools">
 
         <!-- Tool 1: Password Breach Checker -->
-        <div class="tool-card">
-            <div class="tool-header">
-                <div class="tool-icon tool-icon-breach">
-                    <i class="ti ti-lock-search" aria-hidden="true"></i>
-                </div>
+        <div class="tool">
+            <div class="tool-label">
+                <div class="tl-dot" style="background:#E24B4A"></div>
                 <div>
-                    <div class="tool-name">Password breach check</div>
-                    <div class="tool-desc">HIBP k-anonymity · password never leaves your device</div>
+                    <div class="tl-name">Password breach check</div>
+                    <div class="tl-sub">HIBP k-anonymity · free · no account needed</div>
                 </div>
             </div>
 
-            <div class="pw-wrap">
-                <input type="password" class="pw-input" id="pwInput"
-                    placeholder="Enter a password to check..."
+            <div class="pw-field">
+                <input type="password" id="pwInput"
+                    placeholder="Enter a password to check"
                     onkeydown="if(event.key==='Enter') checkPassword()">
                 <button class="pw-toggle" onclick="togglePw()" aria-label="Toggle password visibility">
                     <i class="ti ti-eye" id="eyeIcon" aria-hidden="true"></i>
                 </button>
             </div>
 
-            <div style="display:flex;gap:8px;align-items:center">
-                <button class="check-btn" id="checkBtn" onclick="checkPassword()">
+            <div class="btn-row">
+                <button class="btn-primary btn-check" onclick="checkPassword()">
+                    <i class="ti ti-lock-search" aria-hidden="true"></i>
                     Check password
                 </button>
                 <div class="spinner" id="pwSpinner"></div>
@@ -365,7 +328,7 @@
 
             <div class="privacy-note">
                 <i class="ti ti-lock" aria-hidden="true"></i>
-                Only a 5-char SHA-1 prefix is sent — your password stays private
+                Only a 5-char SHA-1 prefix is sent — your password never leaves this device
             </div>
 
             <div class="breach-result" id="breachResult"></div>
@@ -373,28 +336,27 @@
         </div>
 
         <!-- Tool 2: Metadata Stripper -->
-        <div class="tool-card">
-            <div class="tool-header">
-                <div class="tool-icon tool-icon-meta">
-                    <i class="ti ti-photo-scan" aria-hidden="true"></i>
-                </div>
+        <div class="tool">
+            <div class="tool-label">
+                <div class="tl-dot" style="background:#BA7517"></div>
                 <div>
-                    <div class="tool-name">Image metadata stripper</div>
-                    <div class="tool-desc">Remove GPS, device info, timestamps from images</div>
+                    <div class="tl-name">Image metadata stripper</div>
+                    <div class="tl-sub">Remove GPS location, device info, timestamps</div>
                 </div>
             </div>
 
-            <div class="upload-zone" id="metaDropZone"
-                 onclick="document.getElementById('metaFileInput').click()">
-                <i class="ti ti-photo-up" aria-hidden="true"></i>
+            <div class="upload-zone" id="dropZone"
+                 onclick="document.getElementById('metaFile').click()">
+                <i class="ti ti-photo-scan" aria-hidden="true"></i>
                 <div class="uz-title">Drop an image to inspect</div>
                 <div class="uz-sub">JPG · PNG · TIFF · WebP · BMP</div>
                 <div class="uz-file" id="metaFileName"></div>
             </div>
-            <input type="file" id="metaFileInput" accept=".jpg,.jpeg,.png,.tiff,.webp,.bmp">
+            <input type="file" id="metaFile" accept=".jpg,.jpeg,.png,.tiff,.webp,.bmp">
 
-            <div style="display:flex;gap:8px;align-items:center">
-                <button class="meta-btn" id="metaBtn" onclick="readMeta()" disabled>
+            <div class="btn-row">
+                <button class="btn-primary btn-scan" id="scanBtn"
+                        onclick="readMeta()" disabled>
                     <i class="ti ti-scan" aria-hidden="true"></i>
                     Scan metadata
                 </button>
@@ -403,25 +365,26 @@
 
             <div class="error-msg" id="metaError"></div>
 
-            <div class="meta-results" id="metaResults">
+            <div id="metaResults" style="display:none;flex-direction:column;gap:10px">
+
                 <div class="meta-summary">
                     <div class="ms-card">
                         <div class="ms-num" id="metaCount">0</div>
-                        <div class="ms-label">Fields found</div>
+                        <div class="ms-label">Fields</div>
                     </div>
                     <div class="ms-card">
                         <div class="ms-num" id="metaGps">No</div>
                         <div class="ms-label">GPS data</div>
                     </div>
                     <div class="ms-card">
-                        <div><span class="risk-pill" id="metaRisk">—</span></div>
-                        <div class="ms-label" style="margin-top:6px">Risk</div>
+                        <span class="risk-pill" id="metaRisk">NONE</span>
+                        <div class="ms-label" style="margin-top:5px">Risk</div>
                     </div>
                 </div>
 
                 <div class="fields-list" id="fieldsList"></div>
 
-                <button class="strip-btn" id="stripBtn" onclick="stripMeta()">
+                <button class="btn-primary btn-strip" id="stripBtn" onclick="stripMeta()">
                     <i class="ti ti-eraser" aria-hidden="true"></i>
                     Strip all metadata
                 </button>
@@ -434,13 +397,12 @@
 </div>
 
 <script>
-    // ── Password checker ─────────────────────────────────────
+    // ── Password checker ──────────────────────────────────────
     function togglePw() {
-        const input   = document.getElementById('pwInput');
-        const icon    = document.getElementById('eyeIcon');
-        const showing = input.type === 'text';
-        input.type    = showing ? 'password' : 'text';
-        icon.className = showing ? 'ti ti-eye' : 'ti ti-eye-off';
+        const input = document.getElementById('pwInput');
+        const icon  = document.getElementById('eyeIcon');
+        input.type  = input.type === 'password' ? 'text' : 'password';
+        icon.className = input.type === 'password' ? 'ti ti-eye' : 'ti ti-eye-off';
     }
 
     async function checkPassword() {
@@ -450,7 +412,6 @@
         document.getElementById('breachResult').style.display = 'none';
         document.getElementById('pwError').style.display      = 'none';
         document.getElementById('pwSpinner').style.display    = 'block';
-        document.getElementById('checkBtn').disabled          = true;
 
         try {
             const res  = await fetch('/check-password', {
@@ -468,25 +429,31 @@
 
             const el = document.getElementById('breachResult');
             if (data.breached === true) {
-                el.className = 'breach-result result-breached';
+                el.className = 'breach-result br-found';
                 el.innerHTML = `
-                    <i class="ti ti-alert-circle result-icon" aria-hidden="true"></i>
-                    <div class="result-title">Password found in breaches</div>
-                    <div class="result-detail">Seen ${data.count.toLocaleString()} times in known data breaches. Change this password immediately.</div>
+                    <div class="br-title">
+                        <i class="ti ti-alert-circle" aria-hidden="true"></i>
+                        Found in ${data.count.toLocaleString()} breaches
+                    </div>
+                    <div class="br-detail">This password has been exposed. Change it immediately on every site where you use it.</div>
                 `;
             } else if (data.breached === false) {
-                el.className = 'breach-result result-safe';
+                el.className = 'breach-result br-safe';
                 el.innerHTML = `
-                    <i class="ti ti-circle-check result-icon" aria-hidden="true"></i>
-                    <div class="result-title">Not found in any breach</div>
-                    <div class="result-detail">This password does not appear in known data breaches. Stay safe — use a unique password for every account.</div>
+                    <div class="br-title">
+                        <i class="ti ti-circle-check" aria-hidden="true"></i>
+                        Not found in any breach
+                    </div>
+                    <div class="br-detail">Good — this password does not appear in known data breaches. Use a unique password for every account.</div>
                 `;
             } else {
-                el.className = 'breach-result result-unknown';
+                el.className = 'breach-result br-unknown';
                 el.innerHTML = `
-                    <i class="ti ti-help-circle result-icon" aria-hidden="true"></i>
-                    <div class="result-title">Could not check</div>
-                    <div class="result-detail">${data.error || 'Unknown error'}</div>
+                    <div class="br-title">
+                        <i class="ti ti-help-circle" aria-hidden="true"></i>
+                        Could not check
+                    </div>
+                    <div class="br-detail">${data.error || 'Unknown error — try again.'}</div>
                 `;
             }
             el.style.display = 'block';
@@ -495,55 +462,50 @@
             document.getElementById('pwError').style.display = 'block';
         } finally {
             document.getElementById('pwSpinner').style.display = 'none';
-            document.getElementById('checkBtn').disabled       = false;
         }
     }
 
-    // ── Metadata stripper ────────────────────────────────────
-    const metaFileInput = document.getElementById('metaFileInput');
-    const metaDropZone  = document.getElementById('metaDropZone');
-    let   currentFile   = null;
+    // ── Metadata stripper ─────────────────────────────────────
+    const metaFile = document.getElementById('metaFile');
+    const dropZone = document.getElementById('dropZone');
+    let   currentFile    = null;
     let   cleanImageData = null;
 
-    metaFileInput.addEventListener('change', () => {
-        if (metaFileInput.files.length > 0) {
-            currentFile = metaFileInput.files[0];
+    metaFile.addEventListener('change', () => {
+        if (metaFile.files.length > 0) {
+            currentFile = metaFile.files[0];
             document.getElementById('metaFileName').textContent = currentFile.name;
-            document.getElementById('metaBtn').disabled = false;
+            document.getElementById('scanBtn').disabled = false;
             document.getElementById('metaResults').style.display = 'none';
             document.getElementById('stripResult').style.display = 'none';
         }
     });
 
-    metaDropZone.addEventListener('dragover', e => {
+    dropZone.addEventListener('dragover', e => {
         e.preventDefault();
-        metaDropZone.classList.add('drag-over');
+        dropZone.classList.add('drag-over');
     });
 
-    metaDropZone.addEventListener('dragleave', () => metaDropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
 
-    metaDropZone.addEventListener('drop', e => {
+    dropZone.addEventListener('drop', e => {
         e.preventDefault();
-        metaDropZone.classList.remove('drag-over');
+        dropZone.classList.remove('drag-over');
         const file = e.dataTransfer.files[0];
         if (file) {
             const dt = new DataTransfer();
             dt.items.add(file);
-            metaFileInput.files = dt.files;
+            metaFile.files = dt.files;
             currentFile = file;
             document.getElementById('metaFileName').textContent = file.name;
-            document.getElementById('metaBtn').disabled = false;
+            document.getElementById('scanBtn').disabled = false;
             document.getElementById('metaResults').style.display = 'none';
             document.getElementById('stripResult').style.display = 'none';
         }
     });
 
-    function riskClass(risk) {
-        return `rp-${risk}`;
-    }
-
-    function fieldRiskColor(risk) {
-        return {HIGH: '#ff5c7c', MEDIUM: '#ffa94d', LOW: '#ffd43b'}[risk] || '#5a6678';
+    function riskDotColor(risk) {
+        return {HIGH: '#E24B4A', MEDIUM: '#BA7517', LOW: '#639922'}[risk] || '#B4B2A9';
     }
 
     async function readMeta() {
@@ -552,7 +514,7 @@
         document.getElementById('metaError').style.display   = 'none';
         document.getElementById('metaResults').style.display = 'none';
         document.getElementById('metaSpinner').style.display = 'block';
-        document.getElementById('metaBtn').disabled          = true;
+        document.getElementById('scanBtn').disabled          = true;
 
         const formData = new FormData();
         formData.append('file', currentFile);
@@ -568,8 +530,10 @@
             }
 
             document.getElementById('metaCount').textContent = data.field_count;
-            document.getElementById('metaGps').textContent   = data.gps_found ? 'YES' : 'No';
-            document.getElementById('metaGps').style.color   = data.gps_found ? '#ff5c7c' : '#00ffc2';
+
+            const gpsEl = document.getElementById('metaGps');
+            gpsEl.textContent = data.gps_found ? 'YES' : 'No';
+            gpsEl.style.color = data.gps_found ? '#E24B4A' : '#27500A';
 
             const riskEl = document.getElementById('metaRisk');
             riskEl.textContent = data.risk;
@@ -577,34 +541,34 @@
 
             const list = document.getElementById('fieldsList');
             if (data.fields.length === 0) {
-                list.innerHTML = '<div style="text-align:center;padding:16px;color:#5a6678;font-size:12px">No metadata found — this image is already clean.</div>';
+                list.innerHTML = '<div class="no-meta">No metadata found — this image is already clean.</div>';
             } else {
                 list.innerHTML = data.fields.map(f => `
                     <div class="field-row">
-                        <i class="ti ti-point-filled" style="font-size:8px;color:${fieldRiskColor(f.risk)};flex-shrink:0" aria-hidden="true"></i>
-                        <span class="field-name">${f.tag_name}</span>
-                        <span class="field-value" title="${f.value}">${f.value}</span>
+                        <div class="f-dot" style="background:${riskDotColor(f.risk)}"></div>
+                        <span class="f-name">${f.tag_name}</span>
+                        <span class="f-value" title="${f.value}">${f.value}</span>
                     </div>
                 `).join('');
             }
 
-            document.getElementById('metaResults').style.display = 'flex';
-            document.getElementById('metaResults').style.flexDirection = 'column';
-            document.getElementById('metaResults').style.gap = '8px';
+            const results = document.getElementById('metaResults');
+            results.style.display = 'flex';
+
         } catch (err) {
             document.getElementById('metaError').textContent   = 'Scan failed — try again.';
             document.getElementById('metaError').style.display = 'block';
         } finally {
             document.getElementById('metaSpinner').style.display = 'none';
-            document.getElementById('metaBtn').disabled          = false;
+            document.getElementById('scanBtn').disabled          = false;
         }
     }
 
     async function stripMeta() {
         if (!currentFile) return;
 
-        document.getElementById('stripBtn').disabled          = true;
-        document.getElementById('stripResult').style.display  = 'none';
+        document.getElementById('stripBtn').disabled         = true;
+        document.getElementById('stripResult').style.display = 'none';
 
         const formData = new FormData();
         formData.append('file', currentFile);
@@ -619,18 +583,21 @@
                 return;
             }
 
-            cleanImageData = {b64: data.image_b64, mime: data.mime_type, name: data.output_filename};
+            cleanImageData = {
+                b64:  data.image_b64,
+                mime: data.mime_type,
+                name: data.output_filename,
+            };
 
             const el = document.getElementById('stripResult');
             el.innerHTML = `
                 <div class="sr-title">
                     <i class="ti ti-circle-check" aria-hidden="true"></i>
-                    Metadata stripped successfully
+                    Metadata stripped
                 </div>
-                <div>Removed ${data.fields_removed} metadata fields${data.gps_removed ? ' including GPS location data' : ''}.</div>
-                <div style="margin-top:4px;color:#5a6678">
-                    Original: ${(data.original_size/1024).toFixed(1)} KB →
-                    Clean: ${(data.clean_size/1024).toFixed(1)} KB
+                <div class="sr-detail">
+                    Removed ${data.fields_removed} fields${data.gps_removed ? ' including GPS location data' : ''}.<br>
+                    ${(data.original_size/1024).toFixed(1)} KB → ${(data.clean_size/1024).toFixed(1)} KB
                 </div>
                 <button class="dl-btn" onclick="downloadClean()">
                     <i class="ti ti-download" aria-hidden="true"></i>
@@ -648,14 +615,14 @@
 
     function downloadClean() {
         if (!cleanImageData) return;
-        const bytes  = atob(cleanImageData.b64);
-        const arr    = new Uint8Array(bytes.length);
+        const bytes = atob(cleanImageData.b64);
+        const arr   = new Uint8Array(bytes.length);
         for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
-        const blob   = new Blob([arr], {type: cleanImageData.mime});
-        const url    = URL.createObjectURL(blob);
-        const a      = document.createElement('a');
-        a.href       = url;
-        a.download   = cleanImageData.name;
+        const blob  = new Blob([arr], {type: cleanImageData.mime});
+        const url   = URL.createObjectURL(blob);
+        const a     = document.createElement('a');
+        a.href      = url;
+        a.download  = cleanImageData.name;
         a.click();
         URL.revokeObjectURL(url);
     }
