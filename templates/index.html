@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Security Toolkit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, 'Inter', 'Segoe UI', sans-serif;
+            background: #0a0e14;
+            color: #e4e9f0;
+            min-height: 100vh;
+            padding: 32px 24px;
+        }
+
+        .page { max-width: 860px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 36px;
+            padding-bottom: 20px;
+            border-bottom: 0.5px solid #1e2a38;
+        }
+
+        .header-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: #00ffe518;
+            border: 1px solid #00ffe533;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .header-icon i { color: #00ffe5; font-size: 20px; }
+        .header-title { font-size: 18px; font-weight: 500; }
+        .header-sub   { font-size: 13px; color: #5a6678; margin-top: 2px; }
+
+        /* Tool cards */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: #0e1219;
+            border: 0.5px solid #1e2a38;
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-icon {
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .tool-icon-breach   { background: #ff5c7c18; border: 1px solid #ff5c7c33; }
+        .tool-icon-breach i { color: #ff5c7c; font-size: 17px; }
+        .tool-icon-meta     { background: #ffa94d18; border: 1px solid #ffa94d33; }
+        .tool-icon-meta i   { color: #ffa94d; font-size: 17px; }
+
+        .tool-name { font-size: 14px; font-weight: 500; }
+        .tool-desc { font-size: 11px; color: #5a6678; margin-top: 1px; }
+
+        /* Inputs */
+        .pw-wrap {
+            display: flex;
+            gap: 8px;
+            position: relative;
+        }
+
+        .pw-input {
+            flex: 1;
+            background: #070a0f;
+            border: 0.5px solid #1e2a38;
+            border-radius: 8px;
+            padding: 10px 40px 10px 12px;
+            color: #e4e9f0;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: 'SF Mono', monospace;
+        }
+
+        .pw-input:focus { border-color: #00ffe5; }
+
+        .pw-toggle {
+            position: absolute;
+            right: 10px; top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #5a6678;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+        }
+
+        .check-btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            background: #ff5c7c;
+            color: #0a0e14;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+        .check-btn:hover    { opacity: 0.85; }
+        .check-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+        .privacy-note {
+            font-size: 10px;
+            color: #5a6678;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .privacy-note i { font-size: 11px; color: #00ffc2; }
+
+        /* Breach result */
+        .breach-result {
+            display: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 13px;
+        }
+
+        .result-safe     { background: #00ffc211; border: 0.5px solid #00ffc233; color: #00ffc2; }
+        .result-breached { background: #ff5c7c11; border: 0.5px solid #ff5c7c33; color: #ff5c7c; }
+        .result-unknown  { background: #ffa94d11; border: 0.5px solid #ffa94d33; color: #ffa94d; }
+
+        .result-icon { font-size: 20px; display: block; margin-bottom: 6px; }
+        .result-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+        .result-detail { font-size: 12px; opacity: 0.8; }
+
+        /* Upload zone */
+        .upload-zone {
+            border: 1px dashed #1e2a38;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            background: #070a0f;
+        }
+
+        .upload-zone:hover { border-color: #ffa94d; }
+        .upload-zone.drag-over { border-color: #ffa94d; }
+        .upload-zone i { font-size: 28px; color: #2a3a4a; display: block; margin-bottom: 8px; }
+        .upload-zone .uz-title { font-size: 13px; color: #c8d8e8; margin-bottom: 3px; }
+        .upload-zone .uz-sub   { font-size: 11px; color: #5a6678; }
+        .upload-zone .uz-file  { font-size: 12px; color: #ffa94d; margin-top: 6px; font-weight: 500; }
+
+        input[type="file"] { display: none; }
+
+        .meta-btn {
+            padding: 10px;
+            border-radius: 8px;
+            background: #ffa94d;
+            color: #0a0e14;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .meta-btn:hover    { opacity: 0.85; }
+        .meta-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+        /* Metadata results */
+        .meta-results { display: none; }
+
+        .meta-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .ms-card {
+            background: #070a0f;
+            border: 0.5px solid #1e2a38;
+            border-radius: 8px;
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        .ms-num   { font-size: 20px; font-weight: 500; }
+        .ms-label { font-size: 10px; color: #5a6678; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+
+        .risk-pill {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .rp-HIGH   { background: #ff5c7c22; color: #ff5c7c; }
+        .rp-MEDIUM { background: #ffa94d22; color: #ffa94d; }
+        .rp-LOW    { background: #ffd43b22; color: #ffd43b; }
+        .rp-NONE   { background: #00ffc222; color: #00ffc2; }
+
+        .fields-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-height: 180px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .field-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: #070a0f;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .field-name  { color: #8a9ab0; flex: 1; }
+        .field-value { color: #5a6678; font-family: monospace; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .strip-btn {
+            padding: 9px;
+            border-radius: 8px;
+            background: #00ffe5;
+            color: #0a0e14;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .strip-btn:hover    { opacity: 0.85; }
+        .strip-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+        /* Strip result */
+        .strip-result {
+            display: none;
+            background: #00ffc211;
+            border: 0.5px solid #00ffc233;
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 12px;
+            color: #00ffc2;
+        }
+
+        .strip-result .sr-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .dl-btn {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background: #00ffe5;
+            color: #0a0e14;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 16px; height: 16px;
+            border: 2px solid #1e2a38;
+            border-top-color: #00ffe5;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-msg {
+            font-size: 12px;
+            color: #ff5c7c;
+            margin-top: 6px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <div class="header">
+        <div class="header-icon">
+            <i class="ti ti-shield-lock" aria-hidden="true"></i>
+        </div>
+        <div>
+            <div class="header-title">Digital Security Toolkit</div>
+            <div class="header-sub">Password breach checker · Image metadata stripper</div>
+        </div>
+    </div>
+
+    <div class="tools-grid">
+
+        <!-- Tool 1: Password Breach Checker -->
+        <div class="tool-card">
+            <div class="tool-header">
+                <div class="tool-icon tool-icon-breach">
+                    <i class="ti ti-lock-search" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <div class="tool-name">Password breach check</div>
+                    <div class="tool-desc">HIBP k-anonymity · password never leaves your device</div>
+                </div>
+            </div>
+
+            <div class="pw-wrap">
+                <input type="password" class="pw-input" id="pwInput"
+                    placeholder="Enter a password to check..."
+                    onkeydown="if(event.key==='Enter') checkPassword()">
+                <button class="pw-toggle" onclick="togglePw()" aria-label="Toggle password visibility">
+                    <i class="ti ti-eye" id="eyeIcon" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center">
+                <button class="check-btn" id="checkBtn" onclick="checkPassword()">
+                    Check password
+                </button>
+                <div class="spinner" id="pwSpinner"></div>
+            </div>
+
+            <div class="privacy-note">
+                <i class="ti ti-lock" aria-hidden="true"></i>
+                Only a 5-char SHA-1 prefix is sent — your password stays private
+            </div>
+
+            <div class="breach-result" id="breachResult"></div>
+            <div class="error-msg" id="pwError"></div>
+        </div>
+
+        <!-- Tool 2: Metadata Stripper -->
+        <div class="tool-card">
+            <div class="tool-header">
+                <div class="tool-icon tool-icon-meta">
+                    <i class="ti ti-photo-scan" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <div class="tool-name">Image metadata stripper</div>
+                    <div class="tool-desc">Remove GPS, device info, timestamps from images</div>
+                </div>
+            </div>
+
+            <div class="upload-zone" id="metaDropZone"
+                 onclick="document.getElementById('metaFileInput').click()">
+                <i class="ti ti-photo-up" aria-hidden="true"></i>
+                <div class="uz-title">Drop an image to inspect</div>
+                <div class="uz-sub">JPG · PNG · TIFF · WebP · BMP</div>
+                <div class="uz-file" id="metaFileName"></div>
+            </div>
+            <input type="file" id="metaFileInput" accept=".jpg,.jpeg,.png,.tiff,.webp,.bmp">
+
+            <div style="display:flex;gap:8px;align-items:center">
+                <button class="meta-btn" id="metaBtn" onclick="readMeta()" disabled>
+                    <i class="ti ti-scan" aria-hidden="true"></i>
+                    Scan metadata
+                </button>
+                <div class="spinner" id="metaSpinner"></div>
+            </div>
+
+            <div class="error-msg" id="metaError"></div>
+
+            <div class="meta-results" id="metaResults">
+                <div class="meta-summary">
+                    <div class="ms-card">
+                        <div class="ms-num" id="metaCount">0</div>
+                        <div class="ms-label">Fields found</div>
+                    </div>
+                    <div class="ms-card">
+                        <div class="ms-num" id="metaGps">No</div>
+                        <div class="ms-label">GPS data</div>
+                    </div>
+                    <div class="ms-card">
+                        <div><span class="risk-pill" id="metaRisk">—</span></div>
+                        <div class="ms-label" style="margin-top:6px">Risk</div>
+                    </div>
+                </div>
+
+                <div class="fields-list" id="fieldsList"></div>
+
+                <button class="strip-btn" id="stripBtn" onclick="stripMeta()">
+                    <i class="ti ti-eraser" aria-hidden="true"></i>
+                    Strip all metadata
+                </button>
+            </div>
+
+            <div class="strip-result" id="stripResult"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // ── Password checker ─────────────────────────────────────
+    function togglePw() {
+        const input   = document.getElementById('pwInput');
+        const icon    = document.getElementById('eyeIcon');
+        const showing = input.type === 'text';
+        input.type    = showing ? 'password' : 'text';
+        icon.className = showing ? 'ti ti-eye' : 'ti ti-eye-off';
+    }
+
+    async function checkPassword() {
+        const pw = document.getElementById('pwInput').value;
+        if (!pw) return;
+
+        document.getElementById('breachResult').style.display = 'none';
+        document.getElementById('pwError').style.display      = 'none';
+        document.getElementById('pwSpinner').style.display    = 'block';
+        document.getElementById('checkBtn').disabled          = true;
+
+        try {
+            const res  = await fetch('/check-password', {
+                method:  'POST',
+                headers: {'Content-Type': 'application/json'},
+                body:    JSON.stringify({password: pw}),
+            });
+            const data = await res.json();
+
+            if (data.error) {
+                document.getElementById('pwError').textContent   = data.error;
+                document.getElementById('pwError').style.display = 'block';
+                return;
+            }
+
+            const el = document.getElementById('breachResult');
+            if (data.breached === true) {
+                el.className = 'breach-result result-breached';
+                el.innerHTML = `
+                    <i class="ti ti-alert-circle result-icon" aria-hidden="true"></i>
+                    <div class="result-title">Password found in breaches</div>
+                    <div class="result-detail">Seen ${data.count.toLocaleString()} times in known data breaches. Change this password immediately.</div>
+                `;
+            } else if (data.breached === false) {
+                el.className = 'breach-result result-safe';
+                el.innerHTML = `
+                    <i class="ti ti-circle-check result-icon" aria-hidden="true"></i>
+                    <div class="result-title">Not found in any breach</div>
+                    <div class="result-detail">This password does not appear in known data breaches. Stay safe — use a unique password for every account.</div>
+                `;
+            } else {
+                el.className = 'breach-result result-unknown';
+                el.innerHTML = `
+                    <i class="ti ti-help-circle result-icon" aria-hidden="true"></i>
+                    <div class="result-title">Could not check</div>
+                    <div class="result-detail">${data.error || 'Unknown error'}</div>
+                `;
+            }
+            el.style.display = 'block';
+        } catch (err) {
+            document.getElementById('pwError').textContent   = 'Check failed — try again.';
+            document.getElementById('pwError').style.display = 'block';
+        } finally {
+            document.getElementById('pwSpinner').style.display = 'none';
+            document.getElementById('checkBtn').disabled       = false;
+        }
+    }
+
+    // ── Metadata stripper ────────────────────────────────────
+    const metaFileInput = document.getElementById('metaFileInput');
+    const metaDropZone  = document.getElementById('metaDropZone');
+    let   currentFile   = null;
+    let   cleanImageData = null;
+
+    metaFileInput.addEventListener('change', () => {
+        if (metaFileInput.files.length > 0) {
+            currentFile = metaFileInput.files[0];
+            document.getElementById('metaFileName').textContent = currentFile.name;
+            document.getElementById('metaBtn').disabled = false;
+            document.getElementById('metaResults').style.display = 'none';
+            document.getElementById('stripResult').style.display = 'none';
+        }
+    });
+
+    metaDropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        metaDropZone.classList.add('drag-over');
+    });
+
+    metaDropZone.addEventListener('dragleave', () => metaDropZone.classList.remove('drag-over'));
+
+    metaDropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        metaDropZone.classList.remove('drag-over');
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            metaFileInput.files = dt.files;
+            currentFile = file;
+            document.getElementById('metaFileName').textContent = file.name;
+            document.getElementById('metaBtn').disabled = false;
+            document.getElementById('metaResults').style.display = 'none';
+            document.getElementById('stripResult').style.display = 'none';
+        }
+    });
+
+    function riskClass(risk) {
+        return `rp-${risk}`;
+    }
+
+    function fieldRiskColor(risk) {
+        return {HIGH: '#ff5c7c', MEDIUM: '#ffa94d', LOW: '#ffd43b'}[risk] || '#5a6678';
+    }
+
+    async function readMeta() {
+        if (!currentFile) return;
+
+        document.getElementById('metaError').style.display   = 'none';
+        document.getElementById('metaResults').style.display = 'none';
+        document.getElementById('metaSpinner').style.display = 'block';
+        document.getElementById('metaBtn').disabled          = true;
+
+        const formData = new FormData();
+        formData.append('file', currentFile);
+
+        try {
+            const res  = await fetch('/read-metadata', {method: 'POST', body: formData});
+            const data = await res.json();
+
+            if (data.error) {
+                document.getElementById('metaError').textContent   = data.error;
+                document.getElementById('metaError').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('metaCount').textContent = data.field_count;
+            document.getElementById('metaGps').textContent   = data.gps_found ? 'YES' : 'No';
+            document.getElementById('metaGps').style.color   = data.gps_found ? '#ff5c7c' : '#00ffc2';
+
+            const riskEl = document.getElementById('metaRisk');
+            riskEl.textContent = data.risk;
+            riskEl.className   = `risk-pill rp-${data.risk}`;
+
+            const list = document.getElementById('fieldsList');
+            if (data.fields.length === 0) {
+                list.innerHTML = '<div style="text-align:center;padding:16px;color:#5a6678;font-size:12px">No metadata found — this image is already clean.</div>';
+            } else {
+                list.innerHTML = data.fields.map(f => `
+                    <div class="field-row">
+                        <i class="ti ti-point-filled" style="font-size:8px;color:${fieldRiskColor(f.risk)};flex-shrink:0" aria-hidden="true"></i>
+                        <span class="field-name">${f.tag_name}</span>
+                        <span class="field-value" title="${f.value}">${f.value}</span>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('metaResults').style.display = 'flex';
+            document.getElementById('metaResults').style.flexDirection = 'column';
+            document.getElementById('metaResults').style.gap = '8px';
+        } catch (err) {
+            document.getElementById('metaError').textContent   = 'Scan failed — try again.';
+            document.getElementById('metaError').style.display = 'block';
+        } finally {
+            document.getElementById('metaSpinner').style.display = 'none';
+            document.getElementById('metaBtn').disabled          = false;
+        }
+    }
+
+    async function stripMeta() {
+        if (!currentFile) return;
+
+        document.getElementById('stripBtn').disabled          = true;
+        document.getElementById('stripResult').style.display  = 'none';
+
+        const formData = new FormData();
+        formData.append('file', currentFile);
+
+        try {
+            const res  = await fetch('/strip-metadata', {method: 'POST', body: formData});
+            const data = await res.json();
+
+            if (!data.success) {
+                document.getElementById('metaError').textContent   = data.error;
+                document.getElementById('metaError').style.display = 'block';
+                return;
+            }
+
+            cleanImageData = {b64: data.image_b64, mime: data.mime_type, name: data.output_filename};
+
+            const el = document.getElementById('stripResult');
+            el.innerHTML = `
+                <div class="sr-title">
+                    <i class="ti ti-circle-check" aria-hidden="true"></i>
+                    Metadata stripped successfully
+                </div>
+                <div>Removed ${data.fields_removed} metadata fields${data.gps_removed ? ' including GPS location data' : ''}.</div>
+                <div style="margin-top:4px;color:#5a6678">
+                    Original: ${(data.original_size/1024).toFixed(1)} KB →
+                    Clean: ${(data.clean_size/1024).toFixed(1)} KB
+                </div>
+                <button class="dl-btn" onclick="downloadClean()">
+                    <i class="ti ti-download" aria-hidden="true"></i>
+                    Download clean image
+                </button>
+            `;
+            el.style.display = 'block';
+        } catch (err) {
+            document.getElementById('metaError').textContent   = 'Strip failed — try again.';
+            document.getElementById('metaError').style.display = 'block';
+        } finally {
+            document.getElementById('stripBtn').disabled = false;
+        }
+    }
+
+    function downloadClean() {
+        if (!cleanImageData) return;
+        const bytes  = atob(cleanImageData.b64);
+        const arr    = new Uint8Array(bytes.length);
+        for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+        const blob   = new Blob([arr], {type: cleanImageData.mime});
+        const url    = URL.createObjectURL(blob);
+        const a      = document.createElement('a');
+        a.href       = url;
+        a.download   = cleanImageData.name;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+</script>
+</body>
+</html>
