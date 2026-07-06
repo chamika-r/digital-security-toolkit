@@ -1,0 +1,5 @@
+flask==3.0.3
+requests==2.32.3
+Pillow==11.1.0
+colorama==0.4.6
+click==8.1.7
